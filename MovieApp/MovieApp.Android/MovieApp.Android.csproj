@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.0.27</Version>
+    </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>1.1.5.188</Version>
     </PackageReference>
@@ -132,6 +135,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_cancel.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_cancel.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_cancel.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_filter_list.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_filter_list.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_filter_list.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_filter_list.png" />
     <Content Include="search.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

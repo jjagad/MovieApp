@@ -19,7 +19,7 @@
           <TapGestureRecognizer Command="{Binding CancelTappedCommand}"></TapGestureRecognizer>
         </Image.GestureRecognizers>
       </Image>
-      <Label Text="Popcorn" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" TextColor="White"
+      <Label Text="POPCORN" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" TextColor="White"
              HorizontalTextAlignment="Center" IsVisible="{Binding IsSearchIconVisible}"/>
       <SearchBar Text="{Binding SearchText}" Grid.Column="1" HorizontalOptions="Start" IsVisible="{Binding IsSearchbarVisible}"></SearchBar>
       <Image Source="ic_search.png" Grid.Column="2" HorizontalOptions="End" IsVisible="{Binding IsSearchIconVisible}">
@@ -44,20 +44,25 @@
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
 
-      <ScrollView Grid.Row="0"  Orientation="Horizontal" BackgroundColor="White" Padding="0,8,0,8" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+      <ScrollView Grid.Row="0" Margin="0,2,0,0"  Orientation="Horizontal" BackgroundColor="White" Padding="0,8,0,8" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
         <StackLayout x:Name="GenreStack" VerticalOptions="Start" Orientation="Horizontal" BackgroundColor="Transparent" Spacing="8">
 
         </StackLayout>
       </ScrollView>
 
-      <StackLayout Grid.Row="1" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand">
-        <Button Text="Filter" Command="{Binding FilterCommand}" ></Button>
+      <StackLayout Grid.Row="1" Spacing="0" Margin="10" VerticalOptions="StartAndExpand" Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+        <StackLayout.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+        </StackLayout.GestureRecognizers>
+        <Image Source="ic_filter_list.png" HorizontalOptions="End"></Image>
+        <Label Text="Filter" FontAttributes="Bold" VerticalTextAlignment="Center"
+               BackgroundColor="Transparent" Margin="0" HorizontalTextAlignment="Start" />
       </StackLayout>
 
 
       <ListView Grid.Row="2" x:Name="MoviesList" ItemsSource="{Binding ListOfMoviesToBeDisplayed}"
                 SelectionMode="None" RowHeight="120" SeparatorVisibility="None"
-                ItemTapped="Handle_ItemTapped">
+                ItemTapped="Handle_ItemTapped" ItemAppearing="OnItemAppearing">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>

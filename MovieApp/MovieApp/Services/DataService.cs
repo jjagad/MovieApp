@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,27 +35,56 @@ namespace MovieApp.Services
 
         public static async Task<List<Genre>> GetGenresListAsync()
         {
-            Genres = await client.GetMovieGenresAsync();
-            Genres = Genres.OrderBy(x => x.Id).ToList();
-            return new List<Genre>(Genres);
+            try
+            {
+                Genres = await client.GetMovieGenresAsync();
+                Genres = Genres.OrderBy(x => x.Id).ToList();
+                return new List<Genre>(Genres);
+            }
+            catch(Exception ex)
+            {
+               // UserDialogs.Instance.Toast("Something went wrong..Please try again");
+                UserDialogs.Instance.Alert("Something went wrong..Please try again");
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public static async Task<ObservableCollection<SearchMovie>> GetAllMovies(int pageNumber)
         {
-            if (client == null)
-              await  Init();
-            searchMoviesContainer = await client.DiscoverMoviesAsync().Query(pageNumber);
-            return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
+            try
+            {
+                if (client == null)
+                    await Init();
+                searchMoviesContainer = await client.DiscoverMoviesAsync().Query(pageNumber);
+                return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
+            }
+            catch(Exception ex)
+            {
+                UserDialogs.Instance.Alert("Something went wrong..Please try again");
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public static async Task<ObservableCollection<SearchMovie>> GetAllMoviesOfGenre(List<Genre> Genres)
+        public static async Task<ObservableCollection<SearchMovie>> GetAllMoviesOfGenre(List<Genre> Genres,int pageNumber = 0)
         {
-            if (client == null)
-              await Init();
-            await Task.Delay(2000);
-            searchMoviesContainer = await client.DiscoverMoviesAsync().IncludeWithAllOfGenre(Genres).Query();
-            return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
+            try
+            {
+                if (client == null)
+                    await Init();
+               
+                searchMoviesContainer = await client.DiscoverMoviesAsync().IncludeWithAllOfGenre(Genres).Query(pageNumber);
+                return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
+            }
+            catch(Exception ex)
+            {
+                UserDialogs.Instance.Alert("Something went wrong..Please try again");
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
+
 
         public static async Task<Movie> GetMovie(int MovieId)
         {

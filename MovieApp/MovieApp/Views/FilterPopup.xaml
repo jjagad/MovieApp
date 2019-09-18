@@ -21,7 +21,7 @@
         <StackLayout BackgroundColor="White" Padding="10" Spacing="15">
             <Label Text="Filter" TextColor="Black" FontAttributes="Bold"></Label>
             <input:RadioButtonGroupView>
-                <input:RadioButton Text="Most Recent" ClickCommand="{Binding MostRecentCommand}"/>
+                <input:RadioButton Text="Most Recent" ClickCommand="{Binding MostRecentCommand}" IsChecked="True"/>
                 <input:RadioButton Text="Highest Rated" ClickCommand="{Binding HighRatedCommand}"/>
             </input:RadioButtonGroupView>
 

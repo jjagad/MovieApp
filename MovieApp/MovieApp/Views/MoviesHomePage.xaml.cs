@@ -5,13 +5,14 @@ using Xamarin.Forms;
 using FFImageLoading.Forms;
 using TMDbLib.Objects.Search;
 using TMDbLib.Objects.General;
+using Acr.UserDialogs;
 
 namespace MovieApp.Views
 {
     public partial class MoviesHomePage : ContentPage
     {
         private MoviesHomeViewModel ViewModel;
-        
+      
 
         public MoviesHomePage()
         {
@@ -27,15 +28,18 @@ namespace MovieApp.Views
 
                 CreateHorizontalScrollView();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
         }
 
+        /// <summary>
+        /// This will create a horizontal scroll view for Genres
+        /// </summary>
         public async void CreateHorizontalScrollView()
         {
-            var Genres =  await ViewModel.PopulateGenreList();
+            var Genres = await ViewModel.PopulateGenreList();
 
             Button button;
 
@@ -54,7 +58,7 @@ namespace MovieApp.Views
 
             GenreStack.Children.Add(buttonAll);
 
-            foreach(var item in Genres)
+            foreach (var item in Genres)
             {
                 button = new Button
                 {
@@ -63,7 +67,7 @@ namespace MovieApp.Views
                     FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Button)),
                     CornerRadius = 10,
                     HeightRequest = 80,
-                    TextColor = Color.Blue,
+                    TextColor = Color.Gray,
                     CommandParameter = item,
                     VerticalOptions = LayoutOptions.Start
                 };
@@ -75,42 +79,81 @@ namespace MovieApp.Views
             }
         }
 
+        /// <summary>
+        /// This will populate the movies list again 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ButtonAll_Clicked(object sender, EventArgs e)
         {
-            ViewModel.pageNumber = 0;
+            UserDialogs.Instance.ShowLoading("Loading");
+            ViewModel.IsGenreSelected = false;
+            ViewModel.pageNumber = 1;
+            var button = sender as Button;
+            ResetSelection();
+            button.TextColor = Color.Blue;
+
             await ViewModel.PopulateMovieList();
+
+            UserDialogs.Instance.HideLoading();
         }
 
+        /// <summary>
+        /// This will handle the click of a genre and filter the 
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Clicked(object sender, EventArgs e)
         {
+            UserDialogs.Instance.ShowLoading("Loading");
+            ViewModel.IsGenreSelected = true;
+            ViewModel.pageNumber = 1;
             var button = sender as Button;
+            ResetSelection();
+            button.TextColor = Color.Blue;
+
             var id = button.CommandParameter;
             ViewModel.FilterByGenreCommand.Execute(id);
+
+            UserDialogs.Instance.HideLoading();
         }
 
+        public void ResetSelection()
+        {
+            var list = GenreStack.Children;
+            foreach (var item in list)
+            {
+                var btn = item as Button;
+                btn.TextColor = Color.Gray;
+            }
+        }
+        /// <summary>
+        /// This will handle the movie item selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             ViewModel.NavigateToDetailCommand.Execute(e.Item as SearchMovie);
         }
 
 
-        //async void OnItemAppearing(object Sender, ItemVisibilityEventArgs e)
-        //{
-        //    var item = e.Item as SearchMovie;
-        //    int index = ViewModel.ListOfMoviesToBeDisplayed.IndexOf(item);
-            
-        //    if (index != 0 && index % 19 == 0)
-        //    {
+        async void OnItemAppearing(object Sender, ItemVisibilityEventArgs e)
+        {
+            var item = e.Item as SearchMovie;
+            int index = ViewModel.ListOfMoviesToBeDisplayed.IndexOf(item);
 
-        //        if (previousindex != index)
-        //        {
-        //            ViewModel.pageNumber = ViewModel.pageNumber + 1;
-        //            await ViewModel.PopulateMovieList();
-        //            MoviesList.ScrollTo(ViewModel.ListOfMoviesToBeDisplayed[index + 3], ScrollToPosition.Start, true);
-        //        }
-        //        previousindex = index;
-        //    }
-            
-        //}
+            if (index != 0 && index == ViewModel.ListOfMoviesToBeDisplayed.Count - 1)
+            {
+                UserDialogs.Instance.ShowLoading("Loading");
+                ViewModel.pageNumber = ViewModel.pageNumber + 1;
+                              
+                await ViewModel.PopulateMovieListByPagination();
+                
+                UserDialogs.Instance.HideLoading();
+            }
+
+        }
     }
 }

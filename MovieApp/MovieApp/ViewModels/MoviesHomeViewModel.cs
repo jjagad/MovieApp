@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using MovieApp.Services;
 using MovieApp.Views;
 using Rg.Plugins.Popup.Extensions;
@@ -17,7 +18,10 @@ namespace MovieApp.ViewModel
     {
         //Navigation
         public INavigation Navigation;
-        public int pageNumber = 0;
+        public int pageNumber = 1;
+        public bool IsGenreSelected = false;
+        private Genre SelectedGenre;
+        List<Genre> genreList;
         //Properties
 
         /// <summary>The list of Movies to be Displayed in the Movies Home Page." </summary>
@@ -53,6 +57,11 @@ namespace MovieApp.ViewModel
                 else
                 {
                     pageNumber = 0;
+                    if(IsGenreSelected)
+                    {
+                        FilterByGenreAsync(SelectedGenre);
+                    }
+
                     Task.Run(async () => {
                         await PopulateMovieList();
                     });
@@ -94,7 +103,6 @@ namespace MovieApp.ViewModel
         public ICommand CancelTappedCommand => new Command(CancelIconClick);
 
       
-
         //Constructor
         public MoviesHomeViewModel()
         {
@@ -102,6 +110,11 @@ namespace MovieApp.ViewModel
                     
         }
 
+
+        //Methods
+        /// <summary>
+        /// This will populate Genres
+        /// </summary>
         public static void PopulateGenres()
         {
             var GenresList = DataService.Genres;
@@ -109,60 +122,112 @@ namespace MovieApp.ViewModel
 
         public async Task PopulateMovieList()
         {
-            ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);
-                       
+            ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);                    
            
+        }
+        public async Task PopulateMovieListByPagination()
+        {
+            if (IsGenreSelected)
+            {
+                var movieList = await DataService.GetAllMoviesOfGenre(genreList, pageNumber);
+                if (movieList != null)
+                {
+                    foreach (var item in movieList)
+                    {
+                        ListOfMoviesToBeDisplayed.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                var movieList = await DataService.GetAllMovies(pageNumber);
+                if (movieList != null)
+                {
+                    foreach (var item in movieList)
+                    {
+                        ListOfMoviesToBeDisplayed.Add(item);
+                    }
+                }
+            }
+
         }
 
 
+        /// <summary>
+        /// This will open a filter popup
+        /// </summary>
         private void FilterClickAsync()
         {
             Navigation.PushPopupAsync(new FilterPopup(this));
         }
 
-
+        /// <summary>
+        /// This will adjust the visibility of controls in toolbar
+        /// </summary>
         private void SearchIconClick()
         {
             IsSearchbarVisible = true;
             IsSearchIconVisible = false;
         }
 
+        /// <summary>
+        /// This will adjust the visibility of controls in toolbar
+        /// </summary>
+        /// <param name="obj"></param>
         private void CancelIconClick(object obj)
         {
             IsSearchbarVisible = false;
             IsSearchIconVisible = true;
         }
 
+        /// <summary>
+        /// This will filter the movie list by ratings
+        /// </summary>
         private void FilterByRatings()
         {
             ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.OrderByDescending(m => m.VoteAverage));
         }
 
+        /// <summary>
+        /// This will filter the movie list by Release Date
+        /// </summary>
         private void FilterByMostRecent()
         {
             ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.OrderByDescending(m => m.ReleaseDate));
         }
 
-
+        /// <summary>
+        /// This will populate a fresh genre list
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Genre>> PopulateGenreList()
         {
             ListOfGenresToBeDisplayed = await DataService.GetGenresListAsync();
             return ListOfGenresToBeDisplayed;
         }
 
-        //Methods
+       /// <summary>
+       /// This will navigate to movie details page for a selected movie
+       /// </summary>
+       /// <param name="movie"></param>
         public void HandleNavigateToDetailAsync(SearchMovie movie)
         {
             Navigation.PushModalAsync(new MoviesDetailsPage(movie.Id));
         }
      
-
+        /// <summary>
+        /// This will filter the movie list by genre selected
+        /// </summary>
+        /// <param name="genre"></param>
         private async void FilterByGenreAsync(Genre genre)
         {
-            List<Genre> genreList = new List<Genre>();
+            UserDialogs.Instance.ShowLoading("Loading");
+            SelectedGenre = genre;
+            genreList = new List<Genre>();
             genreList.Add(genre);
             var list = await DataService.GetAllMoviesOfGenre(genreList);
             ListOfMoviesToBeDisplayed = list;
+            UserDialogs.Instance.HideLoading();
         }
     }
 }
