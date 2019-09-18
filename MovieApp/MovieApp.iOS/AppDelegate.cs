@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Acr.UserDialogs;
+using FFImageLoading.Forms.Platform;
 using Foundation;
 using UIKit;
 
@@ -23,6 +24,9 @@ namespace MovieApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            CachedImageRenderer.Init();
+            Rg.Plugins.Popup.Popup.Init();
+           
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
