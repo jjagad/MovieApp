@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="MovieApp.Views.FilterPopup">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+      PositionIn="Bottom"
+      PositionOut="Bottom"
+      ScaleIn="1.2"
+      ScaleOut="0.8"
+      DurationIn="400"
+      DurationOut="300"
+      EasingIn="SinOut"
+      EasingOut="SinIn"
+      HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+    <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand" Padding="0">
+        <StackLayout BackgroundColor="White" Padding="10" Spacing="15">
+            <Label Text="Filter" TextColor="Black" FontAttributes="Bold"></Label>
+            <input:RadioButtonGroupView>
+                <input:RadioButton Text="Most Recent" ClickCommand="{Binding MostRecentCommand}"/>
+                <input:RadioButton Text="Highest Rated" ClickCommand="{Binding HighRatedCommand}"/>
+            </input:RadioButtonGroupView>
+
+            <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                <Button BackgroundColor="Transparent" Text="Cancel" Command="{Binding CancelCommand}"></Button>
+                <Button BackgroundColor="Transparent" Text="Apply" Command="{Binding ApplyCommand}"></Button>
+            </StackLayout>
+
+        </StackLayout>
+    </StackLayout>
+</pages:PopupPage>

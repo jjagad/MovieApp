@@ -17,10 +17,14 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="4.2.0.778463" />  
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.778463" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.12" />  
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\FilterPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

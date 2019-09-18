@@ -5,8 +5,8 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             x:Class="MovieApp.Views.MoviesDetailsPage">
-  
+             x:Class="MovieApp.Views.MoviesDetailsPage" BackgroundColor="#F5F5F5">
+
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="0,32,0,0" />
@@ -20,29 +20,33 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Silver">
-            <ffimageloading:CachedImage Source="{Binding SelectedMovie.PosterPath, Converter={StaticResource ImageSourceToURL}}" HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,0.8" />
-            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-                <StackLayout>
-                    <Grid BackgroundColor="Transparent" HeightRequest="500" />
-                    <Frame Margin="16" Padding="0" OutlineColor="Blue" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-                        <StackLayout Orientation="Horizontal" Spacing="8" Padding="10" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
-                            <StackLayout BackgroundColor="White" HorizontalOptions="Start" VerticalOptions="Center">
-                                <Label Text="{Binding SelectedMovie.Title}" FontAttributes="Bold" FontSize="Large" />
-                                <Label Text="{Binding SelectedMovie.ReleaseDate, StringFormat='Release Date : {0:MMMM dd, yyyy}' }" FontSize="Small" />
-                                <Label Text="{Binding SelectedMovie.VoteAverage, StringFormat='IMDB {0}'}" FontSize="Small" FontAttributes="Bold" />
-                                <Label Text="{Binding SelectedMovie.Genres, Converter={StaticResource GenreIDToLabel}}" FontSize="Small" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
-                                <Label Text="{Binding SelectedMovie.Overview}" FontAttributes="None" FontSize="Medium" />
+        <Grid>
+            <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#f5f5f5">
+                <ffimageloading:CachedImage Aspect="AspectFill" Source="{Binding SelectedMovie.PosterPath, Converter={StaticResource ImageSourceToURL}}" HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="Start" BackgroundColor="White" 
+                                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,0.3" />
+
+
+                <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0.6,1,.4" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                    <StackLayout HeightRequest="500">
+
+                        <Frame Margin="16" Padding="0" OutlineColor="Blue" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                            <StackLayout Orientation="Horizontal" Spacing="8" Padding="10" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
+                                <StackLayout BackgroundColor="White" HorizontalOptions="Start" VerticalOptions="Center">
+                                    <Label Text="{Binding SelectedMovie.Title}" FontAttributes="Bold" FontSize="Large" />
+                                    <Label Text="{Binding SelectedMovie.ReleaseDate, StringFormat='Release Date : {0:MMMM dd, yyyy}' }" FontSize="Small" />
+                                    <Label Text="{Binding SelectedMovie.VoteAverage, StringFormat='IMDB {0}'}" FontSize="Small" FontAttributes="Bold" />
+                                    <Label Text="{Binding SelectedMovie.Genres, Converter={StaticResource GenreIDToLabel}}" FontSize="Small" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
+                                    <Label Text="{Binding SelectedMovie.Overview}" FontAttributes="None" FontSize="Medium" />
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-            </ScrollView>
-            <ffimageloadingsvg:SvgCachedImage Source="search.svg" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.99,0,0.12,0.12" Margin="0,-50,0,0">
-                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CloseCommand}" />
-                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
-            </ffimageloadingsvg:SvgCachedImage>
-        </AbsoluteLayout>
+                        </Frame>
+                    </StackLayout>
+                </ScrollView>
+
+            </AbsoluteLayout>
+            <Button VerticalOptions="End" Text="Continue to Checkout" TextColor="Black"
+                    BackgroundColor="White" HorizontalOptions="FillAndExpand"></Button>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

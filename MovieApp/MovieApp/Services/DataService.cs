@@ -39,11 +39,11 @@ namespace MovieApp.Services
             return new List<Genre>(Genres);
         }
 
-        public static async Task<ObservableCollection<SearchMovie>> GetAllMovies()
+        public static async Task<ObservableCollection<SearchMovie>> GetAllMovies(int pageNumber)
         {
             if (client == null)
               await  Init();
-            searchMoviesContainer = await client.DiscoverMoviesAsync().Query();
+            searchMoviesContainer = await client.DiscoverMoviesAsync().Query(pageNumber);
             return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
         }
 

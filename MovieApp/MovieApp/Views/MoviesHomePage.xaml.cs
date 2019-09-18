@@ -10,12 +10,15 @@ namespace MovieApp.Views
 {
     public partial class MoviesHomePage : ContentPage
     {
-        MoviesHomeViewModel ViewModel;
+        private MoviesHomeViewModel ViewModel;
+        
+
         public MoviesHomePage()
         {
             try
             {
                 InitializeComponent();
+                //NavigationPage.SetHasNavigationBar(this, false);
                 ViewModel = new MoviesHomeViewModel
                 {
                     Navigation = Navigation
@@ -40,11 +43,11 @@ namespace MovieApp.Views
             {
                 Text = "All",
                 BackgroundColor = Color.Transparent,
-                FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Button)),
+                FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Button)),
                 CornerRadius = 10,
                 HeightRequest = 80,
                 TextColor = Color.Blue,
-
+                VerticalOptions = LayoutOptions.Start
             };
 
             buttonAll.Clicked += ButtonAll_Clicked;
@@ -57,11 +60,12 @@ namespace MovieApp.Views
                 {
                     Text = item.Name,
                     BackgroundColor = Color.Transparent,
-                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Button)),
+                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Button)),
                     CornerRadius = 10,
                     HeightRequest = 80,
                     TextColor = Color.Blue,
-                    CommandParameter = item
+                    CommandParameter = item,
+                    VerticalOptions = LayoutOptions.Start
                 };
 
                 button.Clicked += Button_Clicked;
@@ -71,9 +75,10 @@ namespace MovieApp.Views
             }
         }
 
-        private void ButtonAll_Clicked(object sender, EventArgs e)
+        private async void ButtonAll_Clicked(object sender, EventArgs e)
         {
-            ViewModel.PopulateMovieList();
+            ViewModel.pageNumber = 0;
+            await ViewModel.PopulateMovieList();
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -88,10 +93,24 @@ namespace MovieApp.Views
             ViewModel.NavigateToDetailCommand.Execute(e.Item as SearchMovie);
         }
 
-    
-        private void Handle_GenreTapped(object sender, Syncfusion.ListView.XForms.ItemTappedEventArgs e)
-        {
-            ViewModel.FilterByGenreCommand.Execute(e.ItemData as Genre);
-        }
+
+        //async void OnItemAppearing(object Sender, ItemVisibilityEventArgs e)
+        //{
+        //    var item = e.Item as SearchMovie;
+        //    int index = ViewModel.ListOfMoviesToBeDisplayed.IndexOf(item);
+            
+        //    if (index != 0 && index % 19 == 0)
+        //    {
+
+        //        if (previousindex != index)
+        //        {
+        //            ViewModel.pageNumber = ViewModel.pageNumber + 1;
+        //            await ViewModel.PopulateMovieList();
+        //            MoviesList.ScrollTo(ViewModel.ListOfMoviesToBeDisplayed[index + 3], ScrollToPosition.Start, true);
+        //        }
+        //        previousindex = index;
+        //    }
+            
+        //}
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MovieApp.Services;
 using MovieApp.Views;
+using Rg.Plugins.Popup.Extensions;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
 using Xamarin.Forms;
@@ -16,7 +17,7 @@ namespace MovieApp.ViewModel
     {
         //Navigation
         public INavigation Navigation;
-        private List<SearchMovie> MovieList;
+        public int pageNumber = 0;
         //Properties
 
         /// <summary>The list of Movies to be Displayed in the Movies Home Page." </summary>
@@ -35,20 +36,70 @@ namespace MovieApp.ViewModel
             set { SetProperty(ref _listOfGenresToBeDisplayed, value); }
         }
 
-       
+        /// <summary>
+        /// Search text for Search bar on Movies Page 
+        /// </summary>
+        private string _searchText;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                SetProperty(ref _searchText, value);
+                if(!string.IsNullOrEmpty(SearchText))
+                {
+                    ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.Where(m => m.OriginalTitle.ToLower().Contains(SearchText.ToLower())));
+                }
+                else
+                {
+                    pageNumber = 0;
+                    Task.Run(async () => {
+                        await PopulateMovieList();
+                    });
+
+                   
+                }
+            }
+        }
+
+        private bool _isSearchbarVisible = false;
+        public bool IsSearchbarVisible
+        {
+            get { return _isSearchbarVisible; }
+            set
+            {
+                SetProperty(ref _isSearchbarVisible, value);
+            }
+        }
+
+        private bool _isSearchIconVisible = true;
+        public bool IsSearchIconVisible
+        {
+            get { return _isSearchIconVisible; }
+            set
+            {
+                SetProperty(ref _isSearchIconVisible, value);
+            }
+        }
+
+
 
         //Commands
         public ICommand NavigateToDetailCommand => new Command<SearchMovie>(HandleNavigateToDetailAsync);
-        public ICommand SearchCommand => new Command(HandleSearchAsync);
         public ICommand FilterByGenreCommand => new Command<Genre>(FilterByGenreAsync);
+        public ICommand FilterCommand => new Command(FilterClickAsync);
+        public ICommand FilterByRatingsCommand => new Command(FilterByRatings);
+        public ICommand FilterByMostRecentCommand => new Command(FilterByMostRecent);
+        public ICommand SearchIconTappedCommand => new Command(SearchIconClick);
+        public ICommand CancelTappedCommand => new Command(CancelIconClick);
 
-       
+      
 
         //Constructor
         public MoviesHomeViewModel()
         {
             PopulateMovieList();
-
+                    
         }
 
         public static void PopulateGenres()
@@ -56,11 +107,42 @@ namespace MovieApp.ViewModel
             var GenresList = DataService.Genres;
         }
 
-        public async void PopulateMovieList()
+        public async Task PopulateMovieList()
         {
-            ListOfMoviesToBeDisplayed = await DataService.GetAllMovies();
-            
+            ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);
+                       
+           
         }
+
+
+        private void FilterClickAsync()
+        {
+            Navigation.PushPopupAsync(new FilterPopup(this));
+        }
+
+
+        private void SearchIconClick()
+        {
+            IsSearchbarVisible = true;
+            IsSearchIconVisible = false;
+        }
+
+        private void CancelIconClick(object obj)
+        {
+            IsSearchbarVisible = false;
+            IsSearchIconVisible = true;
+        }
+
+        private void FilterByRatings()
+        {
+            ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.OrderByDescending(m => m.VoteAverage));
+        }
+
+        private void FilterByMostRecent()
+        {
+            ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.OrderByDescending(m => m.ReleaseDate));
+        }
+
 
         public async Task<List<Genre>> PopulateGenreList()
         {
@@ -73,11 +155,7 @@ namespace MovieApp.ViewModel
         {
             Navigation.PushModalAsync(new MoviesDetailsPage(movie.Id));
         }
-
-        public void HandleSearchAsync()
-        {
-            Navigation.PushModalAsync(new MoviesDetailsPage(353081));
-        }
+     
 
         private async void FilterByGenreAsync(Genre genre)
         {
