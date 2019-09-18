@@ -6,7 +6,7 @@ namespace MovieApp.Models
 {
     public enum MenuItemType
     {
-        Browse,
+        Popcorn,
         About
     }
     public class HomeMenuItem

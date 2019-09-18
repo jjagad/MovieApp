@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using FFImageLoading.Forms.Platform;
 
 namespace MovieApp.Droid
 {
@@ -16,9 +17,13 @@ namespace MovieApp.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: false);
+           
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+           
+
             LoadApplication(new App());
         }
     }

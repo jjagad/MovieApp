@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localConverters="clr-namespace:MovieApp.Converters" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"            
+             Title="Movies" x:Class="MovieApp.Views.MoviesHomePage">
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Name="FilterBtn" Order="Primary" IconImageSource="Search.svg" Priority="0" />-->
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <localConverters:GenreIDToLabelConverterForHomePage x:Key="GenreIDToLabel" />
+            <localConverters:ImageSourceToURLConverterForHomePage x:Key="ImageSourceToURL" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ScrollView Grid.Row="0" Orientation="Horizontal" BackgroundColor="White" Padding="0,8,0,8" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                <StackLayout x:Name="GenreStack" Orientation="Horizontal" BackgroundColor="Transparent" Spacing="8">
+                    
+                </StackLayout>
+            </ScrollView>
+
+            <AbsoluteLayout Grid.Row="1">
+                <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <ListView x:Name="MoviesList" ItemsSource="{Binding ListOfMoviesToBeDisplayed}" SelectionMode="None" RowHeight="150" SeparatorVisibility="None" ItemTapped="Handle_ItemTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame CornerRadius="10" Margin="5,10" Padding="0" OutlineColor="Silver">
+                                        <StackLayout Orientation="Horizontal" Spacing="8" Padding="4" Margin="5" BackgroundColor="White" HorizontalOptions="Start" VerticalOptions="Center">
+                                            <ffimageloading:CachedImage Source="{Binding PosterPath, Converter={StaticResource ImageSourceToURL}}" HeightRequest="80" WidthRequest="40" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" RetryCount="2" DownsampleToViewSize="true" Aspect="AspectFit">
+                                                
+                                            </ffimageloading:CachedImage>
+                                            <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                                                <Label Text="{Binding OriginalTitle}" FontAttributes="Bold" />
+                                                <Label Text="{Binding GenreIds, Converter={StaticResource GenreIDToLabel}}" FontSize="Small" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
+                                                <Label Text="{Binding VoteAverage, StringFormat='IMDB {0}'}" FontSize="Small" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <ffimageloadingsvg:SvgCachedImage Source="search.svg" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.99,0.99,0.15,0.15" >
+                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SearchCommand}"/>
+                    </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                </ffimageloadingsvg:SvgCachedImage>
+
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
