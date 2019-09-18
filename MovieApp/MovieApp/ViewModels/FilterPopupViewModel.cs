@@ -1,4 +1,5 @@
-﻿using MovieApp.ViewModel;
+﻿using MovieApp.Enums;
+using MovieApp.ViewModel;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace MovieApp.ViewModels
         //Navigation
         public INavigation Navigation;
         private MoviesHomeViewModel _moviesHomeViewModel;
-        private string SelectedCommand;
+        private int SelectedCommand;
 
         public FilterPopupViewModel(MoviesHomeViewModel moviesHomeViewModel)
         {
@@ -34,10 +35,13 @@ namespace MovieApp.ViewModels
             this.Navigation.PopPopupAsync();
         }
 
+        /// <summary>
+        /// This is to apply Genre Selection on Movies Page
+        /// </summary>
         private void ApplyClick()
         {
             this.Navigation.PopPopupAsync();
-            if(SelectedCommand == "HighRatedCommand")
+            if(SelectedCommand == Convert.ToInt32(Filter.HighRated))
             {
                 _moviesHomeViewModel.FilterByRatingsCommand.Execute(this);
 
@@ -48,17 +52,23 @@ namespace MovieApp.ViewModels
             }
         }
 
-        //methods
+       /// <summary>
+       /// This is to assign selected option 
+       /// </summary>
+       /// <param name="obj"></param>
         private void HighRatedClickAsync(object obj)
         {
-            SelectedCommand = "HighRatedCommand";
+            SelectedCommand = Convert.ToInt32(Filter.HighRated);
            
         }
 
-
+        /// <summary>
+        /// This is to assign seleted option
+        /// </summary>
+        /// <param name="obj"></param>
         private void MostRecentClickAsync(object obj)
         {
-            SelectedCommand = "MostRecentCommand";
+            SelectedCommand = Convert.ToInt32(Filter.MostRecent);
         }
 
        

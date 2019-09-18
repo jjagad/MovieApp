@@ -119,6 +119,9 @@ namespace MovieApp.Views
             UserDialogs.Instance.HideLoading();
         }
 
+        /// <summary>
+        /// This is to reset the Genre Selection 
+        /// </summary>
         public void ResetSelection()
         {
             var list = GenreStack.Children;
@@ -138,7 +141,11 @@ namespace MovieApp.Views
             ViewModel.NavigateToDetailCommand.Execute(e.Item as SearchMovie);
         }
 
-
+        /// <summary>
+        /// This is implemented for pagination
+        /// </summary>
+        /// <param name="Sender"></param>
+        /// <param name="e"></param>
         async void OnItemAppearing(object Sender, ItemVisibilityEventArgs e)
         {
             var item = e.Item as SearchMovie;

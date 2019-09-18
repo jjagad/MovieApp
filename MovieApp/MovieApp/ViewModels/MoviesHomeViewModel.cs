@@ -120,11 +120,20 @@ namespace MovieApp.ViewModel
             var GenresList = DataService.Genres;
         }
 
+        /// <summary>
+        /// This is to populate movies list
+        /// </summary>
+        /// <returns></returns>
         public async Task PopulateMovieList()
         {
             ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);                    
            
         }
+
+        /// <summary>
+        /// This is to populate movies with pagination applied
+        /// </summary>
+        /// <returns></returns>
         public async Task PopulateMovieListByPagination()
         {
             if (IsGenreSelected)
