@@ -47,8 +47,11 @@
       </Grid.RowDefinitions>
 
       <ScrollView Grid.Row="0" Margin="0,2,0,0"  Orientation="Horizontal" BackgroundColor="White" Padding="0,8,0,8" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <StackLayout x:Name="GenreStack" VerticalOptions="Start" Orientation="Horizontal" BackgroundColor="Transparent" Spacing="8">
-
+        <StackLayout x:Name="GenreStack" 
+                     VerticalOptions="Start" Orientation="Horizontal" 
+                     BackgroundColor="Transparent" Spacing="8"
+                     >
+                   
         </StackLayout>
       </ScrollView>
 

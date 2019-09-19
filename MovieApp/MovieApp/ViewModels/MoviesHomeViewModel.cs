@@ -101,8 +101,8 @@ namespace MovieApp.ViewModel
         public ICommand FilterByMostRecentCommand => new Command(FilterByMostRecent);
         public ICommand SearchIconTappedCommand => new Command(SearchIconClick);
         public ICommand CancelTappedCommand => new Command(CancelIconClick);
+        
 
-      
         //Constructor
         public MoviesHomeViewModel()
         {            

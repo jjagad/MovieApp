@@ -29,11 +29,24 @@ namespace MovieApp.ViewModel
         {
             try
             {
-                SelectedMovie = Task.Run(async () => await DataService.GetMovie(MovieId)).Result;
+                
+                ShowSelectedMovie(MovieId);
+            }
+            catch(Exception ex)
+            {               
+                UserDialogs.Instance.Alert("Something went wrong..Please try again!","OK");
+                
+            }
+        }
+
+        public async void ShowSelectedMovie(int MovieId)
+        {
+            try
+            {
+                SelectedMovie = await DataService.GetMovie(MovieId);
             }
             catch(Exception ex)
             {
-                Navigation.PopModalAsync();
                 UserDialogs.Instance.Alert("Something went wrong..Please try again!");
             }
         }
