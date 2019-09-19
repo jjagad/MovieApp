@@ -86,9 +86,8 @@ namespace MovieApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ButtonAll_Clicked(object sender, EventArgs e)
+        private void ButtonAll_Clicked(object sender, EventArgs e)
         {
-
 
             ResetSelection();
             ViewModel.IsGenreSelected = false;

@@ -62,7 +62,7 @@ namespace MovieApp.ViewModel
                         FilterByGenreAsync(SelectedGenre);
                     }
 
-                    Task.Run(async () => {
+                    Task.Run(() => {
                         PopulateMovieList();
                     });
 

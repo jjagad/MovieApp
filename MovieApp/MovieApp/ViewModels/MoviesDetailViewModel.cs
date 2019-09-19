@@ -34,6 +34,7 @@ namespace MovieApp.ViewModel
             }
             catch(Exception ex)
             {               
+              
                 UserDialogs.Instance.Alert("Something went wrong..Please try again!","OK");
                 
             }
