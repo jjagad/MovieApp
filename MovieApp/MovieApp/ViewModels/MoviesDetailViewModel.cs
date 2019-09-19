@@ -4,6 +4,7 @@ using System.Windows.Input;
 using TMDbLib.Objects.Movies;
 using Xamarin.Forms;
 using MovieApp.Services;
+using Acr.UserDialogs;
 
 namespace MovieApp.ViewModel
 {
@@ -26,7 +27,14 @@ namespace MovieApp.ViewModel
         //Constructor
         public MoviesDetailViewModel(int MovieId)
         {
-            SelectedMovie = Task.Run(async () => await DataService.GetMovie(MovieId)).Result;
+            try
+            {
+                SelectedMovie = Task.Run(async () => await DataService.GetMovie(MovieId)).Result;
+            }
+            catch(Exception ex)
+            {
+                UserDialogs.Instance.Alert("Something went wrong..Please try again!");
+            }
         }
 
         //Methods

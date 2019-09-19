@@ -19,6 +19,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
+           
             <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#f5f5f5">
                 <ffimageloading:CachedImage Aspect="AspectFill" Source="{Binding SelectedMovie.PosterPath, Converter={StaticResource ImageSourceToURL}}" HorizontalOptions="FillAndExpand"
                                         VerticalOptions="Start" BackgroundColor="White" 
@@ -43,8 +44,17 @@
                 </ScrollView>
 
             </AbsoluteLayout>
+            
             <Button VerticalOptions="End" Text="Continue to Checkout" TextColor="Black"
                     BackgroundColor="White" HorizontalOptions="FillAndExpand"></Button>
+            
+            <Image HorizontalOptions="Start" VerticalOptions="Start" Source="ic_arrow_back.png" 
+                   WidthRequest="40" HeightRequest="40">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
+        
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -143,6 +143,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_filter_list.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_filter_list.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_filter_list.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_back.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_back.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_arrow_back.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_arrow_back.png" />
     <Content Include="search.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

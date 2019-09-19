@@ -195,4 +195,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_search%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_arrow_back%401x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_arrow_back%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_arrow_back%403x.png" />
+  </ItemGroup>
 </Project>
