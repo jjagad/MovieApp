@@ -33,14 +33,15 @@ namespace MovieApp.ViewModel
             }
             catch(Exception ex)
             {
+                Navigation.PopModalAsync();
                 UserDialogs.Instance.Alert("Something went wrong..Please try again!");
             }
         }
 
         //Methods
-        public void ClosePage()
+        public async void ClosePage()
         {
-            Navigation.PopModalAsync(true);
+           await Navigation.PopModalAsync(true);
         }
     }
 }

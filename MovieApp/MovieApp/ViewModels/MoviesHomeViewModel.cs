@@ -165,9 +165,9 @@ namespace MovieApp.ViewModel
         /// <summary>
         /// This will open a filter popup
         /// </summary>
-        private void FilterClickAsync()
+        private async void FilterClickAsync()
         {
-            Navigation.PushPopupAsync(new FilterPopup(this));
+          await Navigation.PushPopupAsync(new FilterPopup(this));
         }
 
         /// <summary>
@@ -219,9 +219,9 @@ namespace MovieApp.ViewModel
        /// This will navigate to movie details page for a selected movie
        /// </summary>
        /// <param name="movie"></param>
-        public void HandleNavigateToDetailAsync(SearchMovie movie)
+        public async void HandleNavigateToDetailAsync(SearchMovie movie)
         {
-            Navigation.PushModalAsync(new MoviesDetailsPage(movie.Id));
+           await Navigation.PushModalAsync(new MoviesDetailsPage(movie.Id));
         }
      
         /// <summary>

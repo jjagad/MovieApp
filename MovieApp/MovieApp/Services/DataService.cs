@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,6 +34,10 @@ namespace MovieApp.Services
             return clientConfig.Images;
         }
 
+        /// <summary>
+        /// This will fetch list of all genres
+        /// </summary>
+        /// <returns></returns>
         public static async Task<List<Genre>> GetGenresListAsync()
         {
             try
@@ -50,14 +55,20 @@ namespace MovieApp.Services
             }
         }
 
+        /// <summary>
+        /// This will fetch list of all movies
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
         public static async Task<ObservableCollection<SearchMovie>> GetAllMovies(int pageNumber)
         {
             try
             {
                 if (client == null)
                     await Init();
-                searchMoviesContainer = await client.DiscoverMoviesAsync().Query(pageNumber);
+                searchMoviesContainer = await client.DiscoverMoviesAsync().Query(pageNumber);              
                 return new ObservableCollection<SearchMovie>(searchMoviesContainer.Results);
+              
             }
             catch(Exception ex)
             {
@@ -67,6 +78,12 @@ namespace MovieApp.Services
             }
         }
 
+        /// <summary>
+        /// This will fetch list of movies based on genres
+        /// </summary>
+        /// <param name="Genres"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
         public static async Task<ObservableCollection<SearchMovie>> GetAllMoviesOfGenre(List<Genre> Genres,int pageNumber = 0)
         {
             try
@@ -85,7 +102,11 @@ namespace MovieApp.Services
             }
         }
 
-
+        /// <summary>
+        /// This will fetch movie based on movie id
+        /// </summary>
+        /// <param name="MovieId"></param>
+        /// <returns></returns>
         public static async Task<Movie> GetMovie(int MovieId)
         {
             return await client.GetMovieAsync(MovieId, MovieMethods.Images);

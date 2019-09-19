@@ -12,14 +12,14 @@ namespace MovieApp.Views
     public partial class MoviesHomePage : ContentPage
     {
         private MoviesHomeViewModel ViewModel;
-      
+
 
         public MoviesHomePage()
         {
             try
             {
                 InitializeComponent();
-               
+
                 ViewModel = new MoviesHomeViewModel
                 {
                     Navigation = Navigation
@@ -34,7 +34,7 @@ namespace MovieApp.Views
             }
         }
 
-       
+
 
         /// <summary>
         /// This will create a horizontal scroll view for Genres
@@ -88,7 +88,7 @@ namespace MovieApp.Views
         /// <param name="e"></param>
         private async void ButtonAll_Clicked(object sender, EventArgs e)
         {
-           
+
             using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
             {
                 ResetSelection();
@@ -98,7 +98,7 @@ namespace MovieApp.Views
                 button.TextColor = Color.Blue;
 
                 await ViewModel.PopulateMovieList();
-            }                           
+            }
 
         }
 
@@ -110,18 +110,17 @@ namespace MovieApp.Views
         /// <param name="e"></param>
         private void Button_Clicked(object sender, EventArgs e)
         {
-            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
-            {
-                ResetSelection();
-                ViewModel.IsGenreSelected = true;
-                ViewModel.pageNumber = 1;
-                var button = sender as Button;
 
-                button.TextColor = Color.Blue;
+            ResetSelection();
+            ViewModel.IsGenreSelected = true;
+            ViewModel.pageNumber = 1;
+            var button = sender as Button;
 
-                var id = button.CommandParameter;
-                ViewModel.FilterByGenreCommand.Execute(id);
-            }         
+            button.TextColor = Color.Blue;
+
+            var id = button.CommandParameter;
+            ViewModel.FilterByGenreCommand.Execute(id);
+
         }
 
         /// <summary>
@@ -164,7 +163,7 @@ namespace MovieApp.Views
 
                     await ViewModel.PopulateMovieListByPagination();
                 }
-                              
+
             }
 
         }
