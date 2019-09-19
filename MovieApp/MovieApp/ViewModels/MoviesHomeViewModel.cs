@@ -63,7 +63,7 @@ namespace MovieApp.ViewModel
                     }
 
                     Task.Run(async () => {
-                        await PopulateMovieList();
+                        PopulateMovieList();
                     });
 
                    
@@ -105,9 +105,8 @@ namespace MovieApp.ViewModel
       
         //Constructor
         public MoviesHomeViewModel()
-        {
-            PopulateMovieList();
-                    
+        {            
+            PopulateMovieList();                                          
         }
 
 
@@ -124,10 +123,13 @@ namespace MovieApp.ViewModel
         /// This is to populate movies list
         /// </summary>
         /// <returns></returns>
-        public async Task PopulateMovieList()
+        public async void PopulateMovieList()
         {
-            ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);                    
-           
+            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            {
+                ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);
+            }
+            
         }
 
         /// <summary>

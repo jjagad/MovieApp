@@ -89,16 +89,15 @@ namespace MovieApp.Views
         private async void ButtonAll_Clicked(object sender, EventArgs e)
         {
 
-            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
-            {
-                ResetSelection();
-                ViewModel.IsGenreSelected = false;
-                ViewModel.pageNumber = 1;
-                var button = sender as Button;
-                button.TextColor = Color.Blue;
 
-                await ViewModel.PopulateMovieList();
-            }
+            ResetSelection();
+            ViewModel.IsGenreSelected = false;
+            ViewModel.pageNumber = 1;
+            var button = sender as Button;
+            button.TextColor = Color.Blue;
+
+            ViewModel.PopulateMovieList();
+
 
         }
 

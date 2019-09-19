@@ -17,19 +17,22 @@
       EasingOut="SinIn"
       HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>
-    <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand" Padding="0">
-        <StackLayout BackgroundColor="White" Padding="10" Spacing="15">
-            <Label Text="Filter" TextColor="Black" FontAttributes="Bold"></Label>
-            <input:RadioButtonGroupView>
-                <input:RadioButton Text="Most Recent" ClickCommand="{Binding MostRecentCommand}" IsChecked="True"/>
-                <input:RadioButton Text="Highest Rated" ClickCommand="{Binding HighRatedCommand}"/>
-            </input:RadioButtonGroupView>
 
-            <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
-                <Button BackgroundColor="Transparent" Text="Cancel" Command="{Binding CancelCommand}"></Button>
-                <Button BackgroundColor="Transparent" Text="Apply" Command="{Binding ApplyCommand}"></Button>
+    <Frame CornerRadius="5" VerticalOptions="End">
+        <StackLayout HorizontalOptions="FillAndExpand" Padding="0">
+            <StackLayout BackgroundColor="White" Padding="15,15,15,5" Spacing="15">
+                <Label Text="Filter" TextColor="Black" FontAttributes="Bold"></Label>
+                <input:RadioButtonGroupView Spacing="15">
+                    <input:RadioButton Text="Most Recent" Color="Blue" CircleColor="Blue" ClickCommand="{Binding MostRecentCommand}" IsChecked="True"/>
+                    <input:RadioButton Text="Highest Rated" Color="Blue" CircleColor="Blue" ClickCommand="{Binding HighRatedCommand}"/>
+                </input:RadioButtonGroupView>
+
+                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                    <Button BackgroundColor="Transparent" Text="Cancel" Command="{Binding CancelCommand}"></Button>
+                    <Button BackgroundColor="Transparent" Text="Apply" Command="{Binding ApplyCommand}"></Button>
+                </StackLayout>
+
             </StackLayout>
-
         </StackLayout>
-    </StackLayout>
+    </Frame>
 </pages:PopupPage>

@@ -22,7 +22,7 @@
         </Image.GestureRecognizers>
       </Image>
       <Label Text="POPCORN" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" TextColor="White"
-             HorizontalTextAlignment="Center" IsVisible="{Binding IsSearchIconVisible}"/>
+             HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding IsSearchIconVisible}"/>
       <SearchBar Text="{Binding SearchText}" Grid.Column="1" HorizontalOptions="Start" IsVisible="{Binding IsSearchbarVisible}"></SearchBar>
       <Image Source="ic_search.png" Grid.Column="2" HorizontalOptions="End" IsVisible="{Binding IsSearchIconVisible}">
         <Image.GestureRecognizers>
@@ -95,6 +95,8 @@
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
+        
+      
     </Grid>
 
   </ContentPage.Content>
