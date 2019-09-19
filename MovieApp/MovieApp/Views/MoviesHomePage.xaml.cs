@@ -19,7 +19,7 @@ namespace MovieApp.Views
             try
             {
                 InitializeComponent();
-                //NavigationPage.SetHasNavigationBar(this, false);
+               
                 ViewModel = new MoviesHomeViewModel
                 {
                     Navigation = Navigation
@@ -33,6 +33,8 @@ namespace MovieApp.Views
 
             }
         }
+
+       
 
         /// <summary>
         /// This will create a horizontal scroll view for Genres
@@ -86,16 +88,18 @@ namespace MovieApp.Views
         /// <param name="e"></param>
         private async void ButtonAll_Clicked(object sender, EventArgs e)
         {
-            UserDialogs.Instance.ShowLoading("Loading");
-            ViewModel.IsGenreSelected = false;
-            ViewModel.pageNumber = 1;
-            var button = sender as Button;
-            ResetSelection();
-            button.TextColor = Color.Blue;
+           
+            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            {
+                ResetSelection();
+                ViewModel.IsGenreSelected = false;
+                ViewModel.pageNumber = 1;
+                var button = sender as Button;
+                button.TextColor = Color.Blue;
 
-            await ViewModel.PopulateMovieList();
+                await ViewModel.PopulateMovieList();
+            }                           
 
-            UserDialogs.Instance.HideLoading();
         }
 
         /// <summary>
@@ -106,17 +110,18 @@ namespace MovieApp.Views
         /// <param name="e"></param>
         private void Button_Clicked(object sender, EventArgs e)
         {
-            UserDialogs.Instance.ShowLoading("Loading");
-            ViewModel.IsGenreSelected = true;
-            ViewModel.pageNumber = 1;
-            var button = sender as Button;
-            ResetSelection();
-            button.TextColor = Color.Blue;
+            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            {
+                ResetSelection();
+                ViewModel.IsGenreSelected = true;
+                ViewModel.pageNumber = 1;
+                var button = sender as Button;
 
-            var id = button.CommandParameter;
-            ViewModel.FilterByGenreCommand.Execute(id);
+                button.TextColor = Color.Blue;
 
-            UserDialogs.Instance.HideLoading();
+                var id = button.CommandParameter;
+                ViewModel.FilterByGenreCommand.Execute(id);
+            }         
         }
 
         /// <summary>
@@ -153,12 +158,13 @@ namespace MovieApp.Views
 
             if (index != 0 && index == ViewModel.ListOfMoviesToBeDisplayed.Count - 1)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-                ViewModel.pageNumber = ViewModel.pageNumber + 1;
+                using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                {
+                    ViewModel.pageNumber = ViewModel.pageNumber + 1;
+
+                    await ViewModel.PopulateMovieListByPagination();
+                }
                               
-                await ViewModel.PopulateMovieListByPagination();
-                
-                UserDialogs.Instance.HideLoading();
             }
 
         }

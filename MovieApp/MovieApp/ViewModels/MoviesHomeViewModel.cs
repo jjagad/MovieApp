@@ -230,13 +230,15 @@ namespace MovieApp.ViewModel
         /// <param name="genre"></param>
         private async void FilterByGenreAsync(Genre genre)
         {
-            UserDialogs.Instance.ShowLoading("Loading");
-            SelectedGenre = genre;
-            genreList = new List<Genre>();
-            genreList.Add(genre);
-            var list = await DataService.GetAllMoviesOfGenre(genreList);
-            ListOfMoviesToBeDisplayed = list;
-            UserDialogs.Instance.HideLoading();
+            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            {
+                SelectedGenre = genre;
+                genreList = new List<Genre>();
+                genreList.Add(genre);
+                var list = await DataService.GetAllMoviesOfGenre(genreList);
+                ListOfMoviesToBeDisplayed = list;
+            }
+           
         }
     }
 }
