@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.27" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
+    <PackageReference Include="Splat" Version="8.3.1" />
     <PackageReference Include="TMDbLib.Core2" Version="1.0.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
