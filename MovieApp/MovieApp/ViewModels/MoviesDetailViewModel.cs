@@ -43,7 +43,10 @@ namespace MovieApp.ViewModel
         {
             try
             {
-                SelectedMovie = await DataService.GetMovie(MovieId);
+                using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                {
+                    SelectedMovie = await DataService.GetMovie(MovieId);
+                }
             }
             catch(Exception ex)
             {
