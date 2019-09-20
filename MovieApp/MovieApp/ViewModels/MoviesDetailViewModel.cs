@@ -44,9 +44,16 @@ namespace MovieApp.ViewModel
         {
             try
             {
-                using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                if (Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
                 {
-                    SelectedMovie = await DataService.GetMovie(MovieId);
+                    using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                    {
+                        SelectedMovie = await DataService.GetMovie(MovieId);
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.Alert("Please check your internet connection");
                 }
             }
             catch(Exception ex)

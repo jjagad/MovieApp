@@ -125,11 +125,17 @@ namespace MovieApp.ViewModel
         /// <returns></returns>
         public async void PopulateMovieList()
         {
-            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            if (Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
             {
-                ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);
+                using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                {
+                    ListOfMoviesToBeDisplayed = await DataService.GetAllMovies(pageNumber);
+                }
             }
-            
+            else
+            {
+                UserDialogs.Instance.Alert("Please check your internet connection");
+            }
         }
 
         /// <summary>
@@ -138,31 +144,36 @@ namespace MovieApp.ViewModel
         /// <returns></returns>
         public async Task PopulateMovieListByPagination()
         {
-            if (IsGenreSelected)
+            if (Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
             {
-                var movieList = await DataService.GetAllMoviesOfGenre(genreList, pageNumber);
-                if (movieList != null)
+                if (IsGenreSelected)
                 {
-                    foreach (var item in movieList)
-                    {
-                        ListOfMoviesToBeDisplayed.Add(item);
-                    }
+                    var movieList = await DataService.GetAllMoviesOfGenre(genreList, pageNumber);
+                    AddItemToCollection(movieList);
+                }
+                else
+                {
+                    var movieList = await DataService.GetAllMovies(pageNumber);
+                    AddItemToCollection(movieList);
+
                 }
             }
             else
             {
-                var movieList = await DataService.GetAllMovies(pageNumber);
-                if (movieList != null)
-                {
-                    foreach (var item in movieList)
-                    {
-                        ListOfMoviesToBeDisplayed.Add(item);
-                    }
-                }
+                UserDialogs.Instance.Alert("Please check your internet connection!");
             }
-
         }
 
+        public void AddItemToCollection(ObservableCollection<SearchMovie> movieList)
+        {
+            if (movieList != null)
+            {
+                foreach (var item in movieList)
+                {
+                    ListOfMoviesToBeDisplayed.Add(item);
+                }
+            }
+        }
 
         /// <summary>
         /// This will open a filter popup
@@ -232,15 +243,21 @@ namespace MovieApp.ViewModel
         /// <param name="genre"></param>
         private async void FilterByGenreAsync(Genre genre)
         {
-            using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+            if (Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
             {
-                SelectedGenre = genre;
-                genreList = new List<Genre>();
-                genreList.Add(genre);
-                var list = await DataService.GetAllMoviesOfGenre(genreList);
-                ListOfMoviesToBeDisplayed = list;
+                using (UserDialogs.Instance.Loading("Loading", null, null, true, MaskType.Black))
+                {
+                    SelectedGenre = genre;
+                    genreList = new List<Genre>();
+                    genreList.Add(genre);
+                    var list = await DataService.GetAllMoviesOfGenre(genreList);
+                    ListOfMoviesToBeDisplayed = list;
+                }
             }
-           
+            else
+            {
+                UserDialogs.Instance.Alert("Please check your internet connection");
+            }
         }
     }
 }
