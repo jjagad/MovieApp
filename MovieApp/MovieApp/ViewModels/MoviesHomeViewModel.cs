@@ -50,24 +50,20 @@ namespace MovieApp.ViewModel
             set
             {
                 SetProperty(ref _searchText, value);
-                if(!string.IsNullOrEmpty(SearchText))
-                {
-                    ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.Where(m => m.OriginalTitle.ToLower().Contains(SearchText.ToLower())));
-                }
-                else
+                if (string.IsNullOrEmpty(SearchText))
                 {
                     pageNumber = 0;
-                    if(IsGenreSelected)
+                    if (IsGenreSelected)
                     {
                         FilterByGenreAsync(SelectedGenre);
                     }
 
-                    Task.Run(() => {
+                    Task.Run(() =>
+                    {
                         PopulateMovieList();
                     });
-
-                   
                 }
+               
             }
         }
 
@@ -101,7 +97,8 @@ namespace MovieApp.ViewModel
         public ICommand FilterByMostRecentCommand => new Command(FilterByMostRecent);
         public ICommand SearchIconTappedCommand => new Command(SearchIconClick);
         public ICommand CancelTappedCommand => new Command(CancelIconClick);
-        
+        public ICommand SearchMoviesCommand => new Command(SearchMoviesAsync);
+
 
         //Constructor
         public MoviesHomeViewModel()
@@ -111,6 +108,30 @@ namespace MovieApp.ViewModel
 
 
         //Methods
+
+
+        private void SearchMoviesAsync()
+        {
+            if (!string.IsNullOrEmpty(SearchText))
+            {
+                ListOfMoviesToBeDisplayed = new ObservableCollection<SearchMovie>(ListOfMoviesToBeDisplayed.Where(m => m.OriginalTitle.ToLower().Contains(SearchText.ToLower())));
+            }
+            else
+            {
+                pageNumber = 0;
+                if (IsGenreSelected)
+                {
+                    FilterByGenreAsync(SelectedGenre);
+                }
+
+                Task.Run(() => {
+                    PopulateMovieList();
+                });
+
+
+            }
+        }
+
         /// <summary>
         /// This will populate Genres
         /// </summary>
